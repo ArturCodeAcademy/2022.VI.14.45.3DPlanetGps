@@ -728,10 +728,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9462d7415b5b343ae77d0cfddb9100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scrollSpeed: 3
+  _scrollSpeed: 1.5
   _mouseSensitivity: 2
   _maxZoom: 60
-  _minZoom: 15
+  _minZoom: 1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,6 +2279,7 @@ MonoBehaviour:
   _spherreScale: 10
   _spherePrefab: {fileID: 3462185074205912326, guid: 5a38acf314a2e854c9414bc03cfa2f5a,
     type: 3}
+  _count: 10
 --- !u!4 &1861144260
 Transform:
   m_ObjectHideFlags: 0

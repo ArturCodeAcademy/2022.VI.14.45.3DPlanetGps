@@ -22,7 +22,7 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        float scrollDelta = Input.mouseScrollDelta.y;
+        float scrollDelta = -Input.mouseScrollDelta.y;
         if (scrollDelta != 0)
             _camera.fieldOfView = 
                 Mathf.Clamp(_camera.fieldOfView +

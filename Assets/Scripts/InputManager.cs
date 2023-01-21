@@ -23,12 +23,21 @@ public class InputManager : MonoBehaviour
     [SerializeField] private GameObject missionCompletionScreen;
     [SerializeField] private Slider pointsSlider;
     [SerializeField] private TMP_Text pointsText;
+    [SerializeField] private TMP_Text currentMissionText;
+    [SerializeField] private TMP_Text totalPointsText;
+
+    [SerializeField] private GameObject _gameCompletionScreen;
+    [SerializeField] private GameObject _misionButton;
+    [SerializeField] private GameObject _gameFinishButton;
 
     [Header("Score settings")]
     [SerializeField] private float missionMaxPoints;
     [SerializeField] private float missionMaxDistance;
 
     private float guessDistance;
+    private MissionController _missionController;
+    private float _totalScore;
+    private int _currentMissionIndex;
 
 
     private void Awake()
@@ -38,10 +47,12 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        _missionController = MissionController.Instance;
         coordTransformator = GeoCoordToCart.Instance;
         pointsSlider.maxValue = missionMaxPoints;
         pointsSlider.value = 0;
         pointsText.text = "0 Points";
+        PickNewMission();
     }
 
     private void Update()
@@ -81,6 +92,37 @@ public class InputManager : MonoBehaviour
         float calculatedScore = CalculatePointsBasedOnDistance();
         pointsSlider.value = calculatedScore;
         pointsText.text = $"{calculatedScore} POINTS"; 
+        _totalScore += calculatedScore;
+    }
+
+    public void PickNewMission()
+    {
+        _currentMissionIndex++;
+        canChooseNewLocation = true;
+        missionCompletionScreen.SetActive(false);
+        mapMarkerSphereTransform.gameObject.SetActive(false);
+        GeoCoord city = _missionController.GetRandomCity();
+        tempMissionCoords = new Vector2(city.Latitude, city.Longitude);
+        currentMissionText.text = 
+            $"Location {_currentMissionIndex} / 5 - {city.Label}";
+
+        if (_currentMissionIndex == 5)
+        {
+            _misionButton.SetActive(false);
+            _gameFinishButton.SetActive(true);
+        }
+    }
+
+    public void FinishGame()
+    {
+        missionCompletionScreen.SetActive(false);
+        _gameCompletionScreen.SetActive(true);
+        totalPointsText.text = $"Total points: {_totalScore}";
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void CreateMarker()
@@ -129,10 +171,5 @@ public class InputManager : MonoBehaviour
     public void SetCanConfirm(bool canChooseNewLocation)
     {
         this.canChooseNewLocation = canChooseNewLocation;
-    }
-
-    public void PickNewMission()
-    {
-        SceneManager.LoadScene(0);
     }
 }
