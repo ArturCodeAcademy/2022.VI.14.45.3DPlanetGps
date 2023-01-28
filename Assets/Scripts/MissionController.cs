@@ -11,14 +11,14 @@ public class MissionController : MonoBehaviour
 
     [SerializeField, Min(1)] private int _count = 100;  
 
-    private const string JSON_FILE_NAME = "CitiesAll";
+    private const string JSON_FILE_NAME = "Cities";
 
     private void Awake()
     {
         Instance = this;
 
         string json = Resources.Load<TextAsset>(JSON_FILE_NAME).text;
-        string[] _coordsStr = json.Split("\n");
+        CoordsStr = json.Split("\n");
         Coords = new List<GeoCoord>(
             Enumerable.Range(0, _count)
             .Select(x => Random.Range(0, CoordsStr.Length))
