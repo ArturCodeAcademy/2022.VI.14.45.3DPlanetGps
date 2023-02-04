@@ -27,8 +27,8 @@ public class RoundSelectionPanel : MonoBehaviour
         SceneManager.LoadScene(_gameSceneIndex);
     }
 
-    public void OnCloseClick()
+    public void SetPanelActive(bool active)
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(active);
     }
 }

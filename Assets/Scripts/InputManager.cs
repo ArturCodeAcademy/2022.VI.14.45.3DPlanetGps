@@ -38,7 +38,7 @@ public class InputManager : MonoBehaviour
     private MissionController _missionController;
     private float _totalScore;
     private int _currentMissionIndex;
-
+    private int _missionsCount;
 
     private void Awake()
     {
@@ -47,6 +47,8 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        if (!SceneDataContainer.Instance.TryGetData(RoundSelectionPanel.COUNT_KEY, out _missionsCount))
+            _missionsCount = 5;
         _missionController = MissionController.Instance;
         coordTransformator = GeoCoordToCart.Instance;
         pointsSlider.maxValue = missionMaxPoints;
@@ -104,9 +106,9 @@ public class InputManager : MonoBehaviour
         GeoCoord city = _missionController.GetRandomCity();
         tempMissionCoords = new Vector2(city.Latitude, city.Longitude);
         currentMissionText.text = 
-            $"Location {_currentMissionIndex} / 5 - {city.Label}";
+            $"Location {_currentMissionIndex} / {_missionsCount} - {city.Label}";
 
-        if (_currentMissionIndex == 5)
+        if (_currentMissionIndex == _missionsCount)
         {
             _misionButton.SetActive(false);
             _gameFinishButton.SetActive(true);
